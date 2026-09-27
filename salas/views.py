@@ -26,7 +26,7 @@ def status_todas_salas(request):
         for sala in salas
     ]
     
-    historico = list(RegistroHistorico.objects.values('mensagem', 'criado_em')[:5])
+    historico = list(RegistroHistorico.objects.values('mensagem', 'criado_em')[:35])
     
     return JsonResponse({
         'salas': dados_salas,

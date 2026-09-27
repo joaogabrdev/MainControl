@@ -137,8 +137,5 @@ h2 {
   border-radius: 12px;
   max-height: 240px;
   overflow-y: auto;
-}
-
-.item-historico {
-  left: 20%;
+  text-align: center;
 }
