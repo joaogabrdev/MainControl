@@ -1,7 +1,24 @@
 const API_URL = 'https://keycontrol.onrender.com';
 
-
 let estaCarregando = false;
+
+function adicionarAoHistorico(mensagem) {
+    const container = document.querySelector("#lista-historico");
+    if (!container) return;
+
+    const limiteMaximo = 5;
+    const agora = new Date();
+    const dataFormatada = agora.toLocaleDateString('pt-BR');
+    const horaFormatada = agora.toLocaleTimeString('pt-BR', { hour: '2-digit', minute: '2-digit', second: '2-digit' });
+    const novoItem = document.createElement("p");
+    novoItem.textContent = `[${dataFormatada} - ${horaFormatada}] ${mensagem}`;
+
+    container.prepend(novoItem);
+
+    while (container.children.length > limiteMaximo) {
+        container.removeChild(container.lastChild);
+    }
+}
 
 function carregarSalas() {
     if (estaCarregando) return;
@@ -49,15 +66,18 @@ function alternarStatusSala(idSala, seletorElemento) {
         const estavaAberto = elemento.textContent.includes("Aberta");
         let qtdAbertas = parseInt(elAbertas.textContent) || 0;
         let qtdFechadas = parseInt(elFechadas.textContent) || 0;
+        const idFormatado = String(idSala).padStart(2, '0');
 
-    if (estavaAberto) {
+        if (estavaAberto) {
         elemento.textContent = "🔴 Fechada";
         elAbertas.textContent = Math.max(0, qtdAbertas - 1);
         elFechadas.textContent = qtdFechadas + 1;
+        adicionarAoHistorico(`Sala ${idFormatado} foi FECHADA.`);
     } else {
         elemento.textContent = "🟢 Aberta";
         elAbertas.textContent = qtdAbertas + 1;
         elFechadas.textContent = Math.max(0, qtdFechadas - 1);
+        adicionarAoHistorico(`Sala ${idFormatado} foi ABERTA.`);
     }
     }
 
