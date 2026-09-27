@@ -39,9 +39,19 @@ def alternar_status(request, sala_id):
     sala.status = not sala.status
     sala.save()
 
-    status_texto = "ABERTA" if sala.status else "FECHADA"
+    if sala.status:
+        emoji = "🟢"
+        status_texto = "ABERTA"
+        acao = "FOI ABERTA"
+    else:
+        emoji = "🔴"
+        status_texto = "FECHADA"
+        acao = "FOI FECHADA"
+
+    mensagem_personalizada = f"{emoji} Status da Sala {sala.numero} alterado para {status_texto}."
+
     RegistroHistorico.objects.create(
-        mensagem=f"Sala {sala.numero} foi {status_texto}."
+        mensagem=mensagem_personalizada
     )
 
     return JsonResponse({'status': sala.status})
