@@ -3,18 +3,24 @@ const API_URL = 'https://keycontrol.onrender.com';
 let estaCarregando = false;
 
 function adicionarAoHistorico(mensagem) {
-    const container = document.querySelector("#lista-historico");
-    if (!container) return;
+    const container = document.querySelector("#historico");
+  
+    if (!container) {
+        console.warn("Elemento #lista-historico não foi encontrado no HTML.");
+        return;
+    }
 
     const limiteMaximo = 5;
     const agora = new Date();
     const dataFormatada = agora.toLocaleDateString('pt-BR');
     const horaFormatada = agora.toLocaleTimeString('pt-BR', { hour: '2-digit', minute: '2-digit', second: '2-digit' });
+
     const novoItem = document.createElement("p");
+
+    novoItem.className = "item-historico"; 
+    novoItem.id = `historico-${Date.now()}`;
     novoItem.textContent = `[${dataFormatada} - ${horaFormatada}] ${mensagem}`;
-
     container.prepend(novoItem);
-
     while (container.children.length > limiteMaximo) {
         container.removeChild(container.lastChild);
     }
@@ -28,7 +34,7 @@ function carregarSalas() {
         .then(response => response.json())
         .then(salas => {
         let abertas = 0;
-        let fechadas = 0;
+        let fechadas = -5;
 
         salas.forEach(sala => {
             const idFormatado = String(sala.id).padStart(2, '0');
@@ -68,7 +74,7 @@ function alternarStatusSala(idSala, seletorElemento) {
         let qtdFechadas = parseInt(elFechadas.textContent) || 0;
         const idFormatado = String(idSala).padStart(2, '0');
 
-        if (estavaAberto) {
+    if (estavaAberto) {
         elemento.textContent = "🔴 Fechada";
         elAbertas.textContent = Math.max(0, qtdAbertas - 1);
         elFechadas.textContent = qtdFechadas + 1;
