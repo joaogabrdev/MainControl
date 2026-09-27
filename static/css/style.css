@@ -128,7 +128,7 @@ h2 {
   margin: 28px 0 10px;
 }
 
-#historico {
+#lista-historico {
   list-style: none;
   margin: 0;
   padding: 0;
@@ -137,14 +137,4 @@ h2 {
   border-radius: 12px;
   max-height: 240px;
   overflow-y: auto;
-}
-
-#lista-historico .item-historico {
-  background-color: #f0f4f8;
-  border-left: 4px solid #28a745;
-  color: #333;
-  font-size: 14px;
-  padding: 8px;
-  margin: 4px 0;
-  border-radius: 4px;
 }
